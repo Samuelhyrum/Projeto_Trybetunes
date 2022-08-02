@@ -17,10 +17,6 @@ handleChange = ({ target }) => {
   }, () => {
     const { user } = this.state;
     const minLength = 3;
-    // const buttonNotDisable = user.length >= minLength;
-    // this.setState({
-    //   buttonDisable: buttonNotDisable,
-    // });
     if (user.length >= minLength) {
       this.setState({ buttonDisable: false });
     } else { this.setState({ buttonDisable: true }); }
