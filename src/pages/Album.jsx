@@ -23,10 +23,10 @@ class Album extends Component {
       bandAlbum = (
         <div>
           <p data-testid="artist-name">
-            {`${musics[0].artistName}`}
+            {`Artista: ${musics[0].artistName}`}
           </p>
           <p data-testid="album-name">
-            {`${musics[0].collectionName}`}
+            {`Álbum : ${musics[0].collectionName}`}
           </p>
         </div>);
     } else if (musics.length === 0) {
@@ -47,7 +47,10 @@ class Album extends Component {
                 && <MusicCard
                   trackName={ music.trackName }
                   previewUrl={ music.previewUrl }
+                  trackId={ music.trackId }
+                  music={ music }
                 />}
+
             </div>
           ))}
         </div>
