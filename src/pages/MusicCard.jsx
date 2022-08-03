@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
 
 class MusicCard extends Component {
     state = {
       favoritesSongs: [],
       loading: false,
-      favorite: false,
+
+    }
+
+    async componentDidMount() {
+      this.setState({
+        loading: true,
+        favoritesSongs: await getFavoriteSongs() }, () => {
+        this.setState({
+          loading: false,
+        });
+      });
     }
 
     myFavoriteSong = ({ target }) => {
@@ -17,8 +27,9 @@ class MusicCard extends Component {
         [name]: checked,
         loading: true,
       }, async () => {
+        await addSong(music);
         this.setState({
-          favoritesSongs: await addSong(music),
+          favoritesSongs: await getFavoriteSongs(),
           loading: false,
         });
       });
@@ -27,7 +38,11 @@ class MusicCard extends Component {
     render() {
       const { music } = this.props;
       const { trackName, previewUrl, trackId } = music;
-      const { loading, favorite, favoritesSongs } = this.state;
+      const { loading, favoritesSongs } = this.state;
+
+      const filtro = favoritesSongs.some((favorite) => (
+        favorite.trackId === music.trackId
+      ));
 
       return (
         <div>
@@ -38,7 +53,6 @@ class MusicCard extends Component {
             O seu navegador não suporta o elemento
             <code>audio</code>
           </audio>
-          <p>{favoritesSongs}</p>
 
           <label
             htmlFor="checkbox"
@@ -49,7 +63,7 @@ class MusicCard extends Component {
               data-testid={ `checkbox-music-${trackId}` }
               name="favorite"
               onChange={ this.myFavoriteSong }
-              checked={ favorite }
+              checked={ filtro }
             />
             {loading && <Loading />}
           </label>
