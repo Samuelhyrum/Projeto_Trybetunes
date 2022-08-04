@@ -49,7 +49,7 @@ class MusicCard extends Component {
       return (
         <div>
 
-          <p>{`Música: ${trackName}`}</p>
+          <p>{trackName}</p>
           <audio data-testid="audio-component" src={ previewUrl } controls>
             <track kind="captions" />
             O seu navegador não suporta o elemento
@@ -67,8 +67,8 @@ class MusicCard extends Component {
               onChange={ this.myFavoriteSong }
               checked={ filtro }
             />
-            {loading && <Loading />}
           </label>
+          {loading && <Loading />}
         </div>
       );
     }
